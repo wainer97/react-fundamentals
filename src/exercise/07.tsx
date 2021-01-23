@@ -1,56 +1,42 @@
-// Rendering Lists
-// http://localhost:3000/isolated/exercise/07.js
+// Basic Forms
+// http://localhost:3000/isolated/exercise/06.js
 
 import * as React from 'react'
 
-type Item = {id: string; value: string}
+function UsernameForm({
+  onSubmitUsername,
+}: {
+  onSubmitUsername: (username: string) => void
+}) {
+  // 🐨 add a submit event handler here (`handleSubmit`).
+  // 💰 Make sure to accept the `event` as an argument and call
+  // `event.preventDefault()` to prevent the default behavior of form submit
+  // events (which refreshes the page).
+  //
+  // 🐨 get the value from the username input (using whichever method
+  // you prefer from the options mentioned in the instructions)
+  // 💰 For example: event.target.elements[0].value
+  // 🐨 Call `onSubmitUsername` with the value of the input
 
-const allItems: Array<Item> = [
-  {id: 'apple', value: '🍎 apple'},
-  {id: 'orange', value: '🍊 orange'},
-  {id: 'grape', value: '🍇 grape'},
-  {id: 'pear', value: '🍐 pear'},
-]
+  // 🐨 add the onSubmit handler to the <form> below
 
-function typedBoolean<T>(
-  value: T,
-): value is Exclude<T, false | null | undefined | '' | 0> {
-  return Boolean(value)
+  // 🐨 make sure to associate the label to the input.
+  // to do so, set the value of 'htmlFor' prop of the label to the id of input
+  return (
+    <form>
+      <div>
+        <label>Username:</label>
+        <input type="text" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  )
 }
 
 function App() {
-  const [items, setItems] = React.useState(allItems)
-
-  function addItem() {
-    setItems(
-      [
-        ...items,
-        allItems.find(i => !items.map(({id}) => id).includes(i.id)),
-      ].filter(typedBoolean),
-    )
-  }
-
-  function removeItem(item: Item) {
-    setItems(items.filter(i => i.id !== item.id))
-  }
-
-  return (
-    <div className="keys">
-      <button disabled={items.length >= allItems.length} onClick={addItem}>
-        add item
-      </button>
-      <ul style={{listStyle: 'none', paddingLeft: 0}}>
-        {items.map(item => (
-          // 🐨 add a key prop to the <li> below. Set it to item.id
-          <li>
-            <button onClick={() => removeItem(item)}>remove</button>{' '}
-            <label htmlFor={`${item.id}-input`}>{item.value}</label>{' '}
-            <input id={`${item.id}-input`} defaultValue={item.value} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+  const onSubmitUsername = (username: string) =>
+    alert(`You entered: ${username}`)
+  return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
 
 export default App

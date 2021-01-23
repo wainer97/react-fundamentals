@@ -1,42 +1,29 @@
-// Basic Forms
-// http://localhost:3000/isolated/exercise/06.js
+// Styling
+// http://localhost:3000/isolated/exercise/05.js
 
 import * as React from 'react'
+import '../box-styles.css'
 
-function UsernameForm({
-  onSubmitUsername,
-}: {
-  onSubmitUsername: (username: string) => void
-}) {
-  // 🐨 add a submit event handler here (`handleSubmit`).
-  // 💰 Make sure to accept the `event` as an argument and call
-  // `event.preventDefault()` to prevent the default behavior of form submit
-  // events (which refreshes the page).
-  //
-  // 🐨 get the value from the username input (using whichever method
-  // you prefer from the options mentioned in the instructions)
-  // 💰 For example: event.target.elements[0].value
-  // 🐨 Call `onSubmitUsername` with the value of the input
+// 💰 Use the className for the size and style (backgroundColor) for the color
+// 💰 each of the elements should also have the "box" className applied
 
-  // 🐨 add the onSubmit handler to the <form> below
+// 🐨 add a className prop to each of these and apply the correct class names
+// 💰 Here are the available class names: box, box--large, box--medium, box--small
 
-  // 🐨 make sure to associate the label to the input.
-  // to do so, set the value of 'htmlFor' prop of the label to the id of input
-  return (
-    <form>
-      <div>
-        <label>Username:</label>
-        <input type="text" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  )
-}
+// 🐨 add a style prop to each of them as well so their background color
+// matches what the text says it should be as well as `fontStyle: 'italic'`
+const smallBox = <div>small lightblue box</div>
+const mediumBox = <div>medium pink box</div>
+const largeBox = <div>large orange box</div>
 
 function App() {
-  const onSubmitUsername = (username: string) =>
-    alert(`You entered: ${username}`)
-  return <UsernameForm onSubmitUsername={onSubmitUsername} />
+  return (
+    <div>
+      {smallBox}
+      {mediumBox}
+      {largeBox}
+    </div>
+  )
 }
 
 export default App

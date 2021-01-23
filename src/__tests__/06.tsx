@@ -1,28 +1,53 @@
 import * as React from 'react'
-import {render, screen} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import chalk from 'chalk'
+import {render, screen, prettyDOM} from '@testing-library/react'
 import App from '../final/06'
 // import App from '../exercise/06'
 
-let alert = jest.spyOn(global, 'alert')
-beforeAll(() => {
-  alert.mockImplementation(() => {})
-})
+test('renders the correct styles new', () => {
+  const {container} = render(<App />)
+  const allBoxes = screen.getAllByText(/box/i)
 
-beforeEach(() => {
-  alert.mockClear()
-})
+  try {
+    allBoxes.forEach(box => expect(box).toHaveClass('box'))
+  } catch (error) {
+    //
+    //
+    //
+    // these comment lines are just here to keep the next line out of the codeframe
+    // so it doesn't confuse people when they see the error message twice.
+    error.message = `🚨  ${chalk.red(
+      `One of the boxes is missing the className "box"`,
+    )}\n\n${prettyDOM(container)}`
 
-test('calls the onSubmitUsername handler when the submit is fired', () => {
-  render(<App />)
-  const input = screen.getByLabelText(/username/i) as HTMLInputElement
-  const submit = screen.getByText(/submit/i)
+    throw error
+  }
 
-  const username = 'jenny'
+  try {
+    allBoxes.forEach(box => expect(box).toHaveStyle('font-style: italic;'))
+  } catch (error) {
+    //
+    //
+    //
+    // these comment lines are just here to keep the next line out of the codeframe
+    // so it doesn't confuse people when they see the error message twice.
+    error.message = `🚨  ${chalk.red(
+      `One of the boxes is missing fontStyle: 'italic' in the style prop`,
+    )}\n\n${prettyDOM(container)}`
 
-  userEvent.type(input, username)
-  userEvent.click(submit)
+    throw error
+  }
 
-  expect(global.alert).toHaveBeenCalledWith(`You entered: ${username}`)
-  expect(global.alert).toHaveBeenCalledTimes(1)
+  const small = screen.getByText(/small/i)
+  const medium = screen.getByText(/medium/i)
+  const large = screen.getByText(/large/i)
+
+  expect(small).toHaveClass('box--small')
+  expect(small).toHaveStyle('background-color: lightblue;')
+
+  expect(medium).toHaveClass('box--medium')
+  expect(medium).toHaveStyle('background-color: pink;')
+
+  expect(large).toHaveClass('box--large')
+  expect(large).toHaveStyle('background-color: orange;')
 })

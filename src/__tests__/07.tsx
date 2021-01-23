@@ -1,35 +1,28 @@
 import * as React from 'react'
-import {render, screen, within} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '../final/07'
 // import App from '../exercise/07'
 
-test('renders', () => {
-  const {container} = render(<App />)
-  const plus = screen.getByText(/add item/i)
-  userEvent.click(plus)
-  userEvent.click(plus)
-  userEvent.click(plus)
-  userEvent.click(plus)
+let alert = jest.spyOn(global, 'alert')
+beforeAll(() => {
+  alert.mockImplementation(() => {})
+})
 
-  const orangeInput = screen.getByLabelText(/orange/i)
-  const orangeContainer = screen.getByText(/orange/i).closest('li')
-  if (!orangeContainer) {
-    throw new Error(`🚨  Can't find the li for "orange"`)
-  }
-  const inOrange = within(orangeContainer)
-  userEvent.type(orangeInput, 'sup dawg')
-  userEvent.click(inOrange.getByText('remove'))
+beforeEach(() => {
+  alert.mockClear()
+})
 
-  const allLis = container.querySelectorAll('li')
-  Array.from(allLis).forEach(li => {
-    const label = li.querySelector('label')
-    const input = li.querySelector('input')
-    if (!label || !input) {
-      throw new Error(
-        '🚨  Please make sure to not remove the label and input in the li elements',
-      )
-    }
-    expect(label.textContent).toBe(input.value)
-  })
+test('calls the onSubmitUsername handler when the submit is fired', () => {
+  render(<App />)
+  const input = screen.getByLabelText(/username/i) as HTMLInputElement
+  const submit = screen.getByText(/submit/i)
+
+  const username = 'jenny'
+
+  userEvent.type(input, username)
+  userEvent.click(submit)
+
+  expect(global.alert).toHaveBeenCalledWith(`You entered: ${username}`)
+  expect(global.alert).toHaveBeenCalledTimes(1)
 })

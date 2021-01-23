@@ -1,40 +1,41 @@
-// Basic Forms
-// http://localhost:3000/isolated/final/06.js
+// Styling
+// http://localhost:3000/isolated/final/05.js
 
-import * as React from 'react'
+import '../box-styles.css'
 
-interface FormElements extends HTMLFormControlsCollection {
-  usernameInput: HTMLInputElement
-}
-interface UsernameFormElement extends HTMLFormElement {
-  readonly elements: FormElements
-}
-
-function UsernameForm({
-  onSubmitUsername,
-}: {
-  onSubmitUsername: (username: string) => void
-}) {
-  function handleSubmit(event: React.SyntheticEvent<UsernameFormElement>) {
-    event.preventDefault()
-    onSubmitUsername(event.currentTarget.elements.usernameInput.value)
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input id="usernameInput" type="text" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
-  )
-}
+const smallBox = (
+  <div
+    className="box box--small"
+    style={{fontStyle: 'italic', backgroundColor: 'lightblue'}}
+  >
+    small lightblue box
+  </div>
+)
+const mediumBox = (
+  <div
+    className="box box--medium"
+    style={{fontStyle: 'italic', backgroundColor: 'pink'}}
+  >
+    medium pink box
+  </div>
+)
+const largeBox = (
+  <div
+    className="box box--large"
+    style={{fontStyle: 'italic', backgroundColor: 'orange'}}
+  >
+    large orange box
+  </div>
+)
 
 function App() {
-  const onSubmitUsername = (username: string) =>
-    alert(`You entered: ${username}`)
-  return <UsernameForm onSubmitUsername={onSubmitUsername} />
+  return (
+    <div>
+      {smallBox}
+      {mediumBox}
+      {largeBox}
+    </div>
+  )
 }
 
 export default App

@@ -1,56 +1,41 @@
-// Dynamic Forms
-// 💯 Validate lower-case
-// http://localhost:3000/isolated/final/06.extra-2.js
+// Styling
+// 💯 accept a size prop to encapsulate styling
+// http://localhost:3000/isolated/final/05.extra-2.js
 
 import * as React from 'react'
+import '../box-styles.css'
 
-interface FormElements extends HTMLFormControlsCollection {
-  usernameInput: HTMLInputElement
-}
-interface UsernameFormElement extends HTMLFormElement {
-  readonly elements: FormElements
-}
-
-function UsernameForm({
-  onSubmitUsername,
-}: {
-  onSubmitUsername: (username: string) => void
+function Box({
+  style = {},
+  size,
+  className = '',
+  ...otherProps
+}: React.HTMLAttributes<HTMLDivElement> & {
+  size?: 'small' | 'medium' | 'large'
 }) {
-  const [error, setError] = React.useState<null | string>(null)
-
-  function handleSubmit(event: React.SyntheticEvent<UsernameFormElement>) {
-    event.preventDefault()
-    onSubmitUsername(event.currentTarget.elements.usernameInput.value)
-  }
-
-  function handleChange(event: React.SyntheticEvent<HTMLInputElement>) {
-    const {value} = event.currentTarget
-    const isLowerCase = value === value.toLowerCase()
-    setError(isLowerCase ? null : 'Username must be lower case')
-  }
-
+  const sizeClassName = size ? `box--${size}` : ''
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input id="usernameInput" type="text" onChange={handleChange} />
-      </div>
-      <div role="alert" style={{color: 'red'}}>
-        {error}
-      </div>
-      <button disabled={Boolean(error)} type="submit">
-        Submit
-      </button>
-    </form>
+    <div
+      className={`box ${className} ${sizeClassName}`}
+      style={{fontStyle: 'italic', ...style}}
+      {...otherProps}
+    />
   )
 }
 
 function App() {
-  const onSubmitUsername = (username: string) =>
-    alert(`You entered: ${username}`)
   return (
-    <div style={{minWidth: 400}}>
-      <UsernameForm onSubmitUsername={onSubmitUsername} />
+    <div>
+      <Box size="small" style={{backgroundColor: 'lightblue'}}>
+        small lightblue box
+      </Box>
+      <Box size="medium" style={{backgroundColor: 'pink'}}>
+        medium pink box
+      </Box>
+      <Box size="large" style={{backgroundColor: 'orange'}}>
+        large orange box
+      </Box>
+      <Box>sizeless box</Box>
     </div>
   )
 }

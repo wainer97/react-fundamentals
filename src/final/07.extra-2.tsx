@@ -1,5 +1,6 @@
-// Basic Forms
-// http://localhost:3000/isolated/final/06.js
+// Dynamic Forms
+// 💯 Validate lower-case
+// http://localhost:3000/isolated/final/06.extra-2.js
 
 import * as React from 'react'
 
@@ -15,18 +16,31 @@ function UsernameForm({
 }: {
   onSubmitUsername: (username: string) => void
 }) {
+  const [error, setError] = React.useState<null | string>(null)
+
   function handleSubmit(event: React.SyntheticEvent<UsernameFormElement>) {
     event.preventDefault()
     onSubmitUsername(event.currentTarget.elements.usernameInput.value)
+  }
+
+  function handleChange(event: React.SyntheticEvent<HTMLInputElement>) {
+    const {value} = event.currentTarget
+    const isLowerCase = value === value.toLowerCase()
+    setError(isLowerCase ? null : 'Username must be lower case')
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="usernameInput">Username:</label>
-        <input id="usernameInput" type="text" />
+        <input id="usernameInput" type="text" onChange={handleChange} />
       </div>
-      <button type="submit">Submit</button>
+      <div role="alert" style={{color: 'red'}}>
+        {error}
+      </div>
+      <button disabled={Boolean(error)} type="submit">
+        Submit
+      </button>
     </form>
   )
 }
@@ -34,7 +48,11 @@ function UsernameForm({
 function App() {
   const onSubmitUsername = (username: string) =>
     alert(`You entered: ${username}`)
-  return <UsernameForm onSubmitUsername={onSubmitUsername} />
+  return (
+    <div style={{minWidth: 400}}>
+      <UsernameForm onSubmitUsername={onSubmitUsername} />
+    </div>
+  )
 }
 
 export default App
