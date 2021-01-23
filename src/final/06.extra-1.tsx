@@ -4,12 +4,18 @@
 
 import * as React from 'react'
 
-function UsernameForm({onSubmitUsername}) {
-  const usernameInputRef = React.useRef<HTMLInputElement>()
+function UsernameForm({
+  onSubmitUsername,
+}: {
+  onSubmitUsername: (username: string) => void
+}) {
+  const usernameInputRef = React.useRef<HTMLInputElement>(null)
 
   function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
-    onSubmitUsername(usernameInputRef.current.value)
+    if (usernameInputRef.current) {
+      onSubmitUsername(usernameInputRef.current.value)
+    }
   }
 
   return (
@@ -24,7 +30,8 @@ function UsernameForm({onSubmitUsername}) {
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
+  const onSubmitUsername = (username: string) =>
+    alert(`You entered: ${username}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
 

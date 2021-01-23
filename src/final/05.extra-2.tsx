@@ -5,7 +5,14 @@
 import * as React from 'react'
 import '../box-styles.css'
 
-function Box({style = null, size, className = '', ...otherProps}) {
+function Box({
+  style = {},
+  size,
+  className = '',
+  ...otherProps
+}: React.HTMLAttributes<HTMLDivElement> & {
+  size?: 'small' | 'medium' | 'large'
+}) {
   const sizeClassName = size ? `box--${size}` : ''
   return (
     <div
@@ -28,7 +35,7 @@ function App() {
       <Box size="large" style={{backgroundColor: 'orange'}}>
         large orange box
       </Box>
-      <Box size="">sizeless box</Box>
+      <Box>sizeless box</Box>
     </div>
   )
 }

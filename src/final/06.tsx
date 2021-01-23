@@ -3,8 +3,19 @@
 
 import * as React from 'react'
 
-function UsernameForm({onSubmitUsername}) {
-  function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+interface FormElements extends HTMLFormControlsCollection {
+  usernameInput: HTMLInputElement
+}
+interface UsernameFormElement extends HTMLFormElement {
+  readonly elements: FormElements
+}
+
+function UsernameForm({
+  onSubmitUsername,
+}: {
+  onSubmitUsername: (username: string) => void
+}) {
+  function handleSubmit(event: React.SyntheticEvent<UsernameFormElement>) {
     event.preventDefault()
     onSubmitUsername(event.currentTarget.elements.usernameInput.value)
   }
@@ -21,7 +32,8 @@ function UsernameForm({onSubmitUsername}) {
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
+  const onSubmitUsername = (username: string) =>
+    alert(`You entered: ${username}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
 

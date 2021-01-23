@@ -11,8 +11,12 @@ interface UsernameFormElement extends HTMLFormElement {
   readonly elements: FormElements
 }
 
-function UsernameForm({onSubmitUsername}) {
-  const [error, setError] = React.useState(null)
+function UsernameForm({
+  onSubmitUsername,
+}: {
+  onSubmitUsername: (username: string) => void
+}) {
+  const [error, setError] = React.useState<null | string>(null)
 
   function handleSubmit(event: React.SyntheticEvent<UsernameFormElement>) {
     event.preventDefault()
